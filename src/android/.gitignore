@@ -1,0 +1,12 @@
+#Ignore output folders.
+/bin
+/gen
+/obj
+
+# Ignore the native libraries in the libs subfolders, but not any libs in the libs folder itself.
+/libs/**/*
+
+# Ignore project files.
+.cproject
+.project
+.classpath
