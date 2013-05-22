@@ -2,7 +2,7 @@ package com.learnopengles.airhockey;
 
 public class GameLibJNIWrapper {
 	static {
-        System.loadLibrary("gamelib");
+        System.loadLibrary("game");
     }
 	
 	public static native void on_surface_created();
