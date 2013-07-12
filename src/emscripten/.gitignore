@@ -1,0 +1,4 @@
+# Ignore build files
+*.o
+*.bc
+*.html

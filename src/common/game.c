@@ -6,7 +6,7 @@ void on_surface_created() {
 }
 
 void on_surface_changed() {
-
+	// No-op
 }
 
 void on_draw_frame() {
