@@ -1,27 +1,28 @@
 #include "../../common/game.h"
 #include <jni.h>
 
-static void jni_on_surface_created(JNIEnv * env, jclass cls) {
+JNIEXPORT void JNICALL Java_com_learnopengles_airhockey_GameLibJNIWrapper_on_1surface_1created(JNIEnv * env, jclass cls) {
 	on_surface_created();
 }
 
-static void jni_on_surface_changed(JNIEnv * env, jclass cls, jint width, jint height) {
+JNIEXPORT void JNICALL Java_com_learnopengles_airhockey_GameLibJNIWrapper_on_1surface_1changed(JNIEnv * env, jclass cls, jint width, jint height) {
 	on_surface_changed();
 }
 
-static void jni_on_draw_frame(JNIEnv * env, jclass cls) {
+JNIEXPORT void JNICALL Java_com_learnopengles_airhockey_GameLibJNIWrapper_on_1draw_1frame(JNIEnv * env, jclass cls) {
 	on_draw_frame();
 }
 
+/* Alternative method: use normal method names and register them in a JNI_OnLoad function:
+ */
+/*
 static JNINativeMethod methodTable[] = {
   {"on_surface_created", "()V", (void *) jni_on_surface_created},
   {"on_surface_changed", "(II)V", (void *) jni_on_surface_changed},
   {"on_draw_frame", "()V", (void *) jni_on_draw_frame},
 };
 
-/* Note: Alternative to using JNI_OnLoad is to use methods names defined like this:
- * JNIEXPORT void JNICALL Java_com_learnopengles_airhockey_GameLibJNIWrapper_on_1surface_1changed
- */
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved)
 {
     JNIEnv* env;
@@ -36,3 +37,4 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved)
 
     return JNI_VERSION_1_6;
 }
+*/

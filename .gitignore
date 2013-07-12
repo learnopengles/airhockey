@@ -1,0 +1,6 @@
+# OS-specific stuff we don't need to keep around.
+.DS_Store
+.Trashes
+
+# Meta files
+*._*
