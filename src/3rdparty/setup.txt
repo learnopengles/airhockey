@@ -1,0 +1,6 @@
+Install the following dependencies here:
+
+GLM 0.9.4.4 => glm/
+libpng 1.6.2 => libpng/
+zlib 1.2.8 => libzlib/
+Copy pnglibconf.h.prebuilt from libpng/scripts/ to libpng/ and remove the .prebuilt extension.

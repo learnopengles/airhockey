@@ -1,0 +1,4 @@
+glm/
+libpng/*
+!libpng/Android.mk
+libzlib/
