@@ -40,7 +40,7 @@
 {
     [EAGLContext setCurrentContext:self.context];
     on_surface_created();
-    on_surface_changed();
+    on_surface_changed([[self view] bounds].size.width, [[self view] bounds].size.height);
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods

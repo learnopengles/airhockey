@@ -1,55 +1,91 @@
 #include "game.h"
+#include "game_objects.h"
 #include "asset_utils.h"
 #include "buffer.h"
 #include "image.h"
+#include "linmath.h"
+#include "math_helper.h"
+#include "matrix.h"
 #include "platform_gl.h"
 #include "platform_asset_utils.h"
+#include "program.h"
 #include "shader.h"
 #include "texture.h"
 
-static GLuint texture;
-static GLuint buffer;
-static GLuint program;
+static const float puck_height = 0.02f;
+static const float mallet_height =  0.15f;
 
-static GLint a_position_location;
-static GLint a_texture_coordinates_location;
-static GLint u_texture_unit_location;
+static Table table;
+static Puck puck;
+static Mallet red_mallet;
+static Mallet blue_mallet;
 
-// position X, Y, texture S, T
-static const float rect[] = {-1.0f, -1.0f, 0.0f, 0.0f,
-		                     -1.0f,  1.0f, 0.0f, 1.0f,
-		                      1.0f, -1.0f, 1.0f, 0.0f,
-		                      1.0f,  1.0f, 1.0f, 1.0f};
+static TextureProgram texture_program;
+static ColorProgram color_program;
+
+static mat4x4 projection_matrix;
+static mat4x4 model_matrix;
+static mat4x4 view_matrix;
+
+static mat4x4 view_projection_matrix;
+static mat4x4 model_view_projection_matrix;
+
+static void position_table_in_scene();
+static void position_object_in_scene(float x, float y, float z);
 
 void on_surface_created() {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glEnable(GL_DEPTH_TEST);
+
+	table = create_table(load_png_asset_into_texture("textures/air_hockey_surface.png"));
+
+	vec4 puck_color = {0.8f, 0.8f, 1.0f, 1.0f};
+	vec4 red = {1.0f, 0.0f, 0.0f, 1.0f};
+	vec4 blue = {0.0f, 0.0f, 1.0f, 1.0f};
+
+	puck = create_puck(0.06f, puck_height, 32, puck_color);
+	red_mallet = create_mallet(0.08f, mallet_height, 32, red);
+	blue_mallet = create_mallet(0.08f, mallet_height, 32, blue);
+
+	texture_program = get_texture_program(build_program_from_assets("shaders/texture_shader.vsh", "shaders/texture_shader.fsh"));
+	color_program = get_color_program(build_program_from_assets("shaders/color_shader.vsh", "shaders/color_shader.fsh"));
 }
 
-void on_surface_changed() {
-	texture = load_png_asset_into_texture("textures/air_hockey_surface.png");
-	buffer = create_vbo(sizeof(rect), rect, GL_STATIC_DRAW);
-	program = build_program_from_assets("shaders/shader.vsh", "shaders/shader.fsh");
-
-	a_position_location = glGetAttribLocation(program, "a_Position");
-	a_texture_coordinates_location = glGetAttribLocation(program, "a_TextureCoordinates");
-	u_texture_unit_location = glGetUniformLocation(program, "u_TextureUnit");
+void on_surface_changed(int width, int height) {
+	glViewport(0, 0, width, height);
+	mat4x4_perspective(projection_matrix, 45, (float) width / (float) height, 1.0f, 10.0f);
+	mat4x4_look_at(view_matrix, 0.0f, 1.2f, 2.2f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 }
 
 void on_draw_frame() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    mat4x4_mul(view_projection_matrix, projection_matrix, view_matrix);
 
-	glUseProgram(program);
+	position_table_in_scene();
+    draw_table(&table, &texture_program, model_view_projection_matrix);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glUniform1i(u_texture_unit_location, 0);
+	position_object_in_scene(0.0f, mallet_height / 2.0f, -0.4f);
+	draw_mallet(&red_mallet, &color_program, model_view_projection_matrix);
 
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glVertexAttribPointer(a_position_location, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GL_FLOAT), BUFFER_OFFSET(0));
-	glVertexAttribPointer(a_texture_coordinates_location, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GL_FLOAT), BUFFER_OFFSET(2 * sizeof(GL_FLOAT)));
-	glEnableVertexAttribArray(a_position_location);
-	glEnableVertexAttribArray(a_texture_coordinates_location);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	position_object_in_scene(0.0f, mallet_height / 2.0f, 0.4f);
+	draw_mallet(&blue_mallet, &color_program, model_view_projection_matrix);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	// Draw the puck.
+	position_object_in_scene(0.0f, puck_height / 2.0f, 0.0f);
+	draw_puck(&puck, &color_program, model_view_projection_matrix);
+}
+
+static void position_table_in_scene() {
+	// The table is defined in terms of X & Y coordinates, so we rotate it
+	// 90 degrees to lie flat on the XZ plane.
+	mat4x4 rotated_model_matrix;
+	mat4x4_identity(model_matrix);
+	mat4x4_rotate_X(rotated_model_matrix, model_matrix, deg_to_radf(-90.0f));
+	mat4x4_mul(model_view_projection_matrix, view_projection_matrix, rotated_model_matrix);
+}
+
+static void position_object_in_scene(float x, float y, float z) {
+	mat4x4_identity(model_matrix);
+	mat4x4_translate_in_place(model_matrix, x, y, z);
+	mat4x4_mul(model_view_projection_matrix, view_projection_matrix, model_matrix);
 }

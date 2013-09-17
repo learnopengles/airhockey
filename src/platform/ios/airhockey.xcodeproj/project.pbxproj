@@ -36,6 +36,8 @@
 		0A8FBF94179E07600039BA29 /* shader.c in Sources */ = {isa = PBXBuildFile; fileRef = 0A8FBF0B179DEF7B0039BA29 /* shader.c */; };
 		0A8FBF95179E07600039BA29 /* texture.c in Sources */ = {isa = PBXBuildFile; fileRef = 0A8FBF0D179DEF7B0039BA29 /* texture.c */; };
 		0A8FBF96179E07600039BA29 /* asset_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 0A8FBF13179DEF7B0039BA29 /* asset_utils.c */; };
+		0ACEE2B417E78AF5009DFC95 /* game_objects.c in Sources */ = {isa = PBXBuildFile; fileRef = 0ACEE2B017E78AF5009DFC95 /* game_objects.c */; };
+		0ACEE2B517E78AF5009DFC95 /* program.c in Sources */ = {isa = PBXBuildFile; fileRef = 0ACEE2B217E78AF5009DFC95 /* program.c */; };
 		0ADF1878178E2185005DA99E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADF1877178E2185005DA99E /* UIKit.framework */; };
 		0ADF187A178E2185005DA99E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADF1879178E2185005DA99E /* Foundation.framework */; };
 		0ADF187C178E2185005DA99E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADF187B178E2185005DA99E /* CoreGraphics.framework */; };
@@ -89,6 +91,12 @@
 		0A8FBF79179E023A0039BA29 /* platform_file_utils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = platform_file_utils.c; sourceTree = "<group>"; };
 		0A8FBF7A179E023A0039BA29 /* platform_file_utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform_file_utils.h; sourceTree = "<group>"; };
 		0ABADED6178E2E7800DED9FD /* platform_gl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform_gl.h; sourceTree = "<group>"; };
+		0ACEE2B017E78AF5009DFC95 /* game_objects.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = game_objects.c; sourceTree = "<group>"; };
+		0ACEE2B117E78AF5009DFC95 /* game_objects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game_objects.h; sourceTree = "<group>"; };
+		0ACEE2B217E78AF5009DFC95 /* program.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = program.c; sourceTree = "<group>"; };
+		0ACEE2B317E78AF5009DFC95 /* program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = program.h; sourceTree = "<group>"; };
+		0ACEE2B617E7A037009DFC95 /* matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix.h; sourceTree = "<group>"; };
+		0ACEE2BB17E7A065009DFC95 /* linmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = linmath.h; sourceTree = "<group>"; };
 		0ADF1874178E2185005DA99E /* airhockey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = airhockey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ADF1877178E2185005DA99E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0ADF1879178E2185005DA99E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -144,6 +152,11 @@
 		0A8FBF03179DEF7B0039BA29 /* core */ = {
 			isa = PBXGroup;
 			children = (
+				0ACEE2B617E7A037009DFC95 /* matrix.h */,
+				0ACEE2B017E78AF5009DFC95 /* game_objects.c */,
+				0ACEE2B117E78AF5009DFC95 /* game_objects.h */,
+				0ACEE2B217E78AF5009DFC95 /* program.c */,
+				0ACEE2B317E78AF5009DFC95 /* program.h */,
 				0A8FBF04179DEF7B0039BA29 /* buffer.c */,
 				0A8FBF05179DEF7B0039BA29 /* buffer.h */,
 				0A8FBF06179DEF7B0039BA29 /* shader.h */,
@@ -185,9 +198,19 @@
 			name = libpng;
 			sourceTree = "<group>";
 		};
+		0ACEE2B817E7A065009DFC95 /* linmath */ = {
+			isa = PBXGroup;
+			children = (
+				0ACEE2BB17E7A065009DFC95 /* linmath.h */,
+			);
+			name = linmath;
+			path = ../../3rdparty/linmath;
+			sourceTree = "<group>";
+		};
 		0ADF186B178E2185005DA99E = {
 			isa = PBXGroup;
 			children = (
+				0ACEE2B817E7A065009DFC95 /* linmath */,
 				0A8FBF77179DFCF30039BA29 /* assets */,
 				0A8FBF6A179DF0BC0039BA29 /* libpng */,
 				0A8FBF03179DEF7B0039BA29 /* core */,
@@ -344,6 +367,8 @@
 				0A8FBF88179E07320039BA29 /* pngwrite.c in Sources */,
 				0A8FBF89179E07320039BA29 /* pngwtran.c in Sources */,
 				0A8FBF8A179E07320039BA29 /* pngwutil.c in Sources */,
+				0ACEE2B417E78AF5009DFC95 /* game_objects.c in Sources */,
+				0ACEE2B517E78AF5009DFC95 /* program.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

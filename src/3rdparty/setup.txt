@@ -1,6 +1,23 @@
+INSTALLATION
+
 Install the following dependencies here:
 
-GLM 0.9.4.4 => glm/
-libpng 1.6.2 => libpng/
-zlib 1.2.8 => libzlib/
-Copy pnglibconf.h.prebuilt from libpng/scripts/ to libpng/ and remove the .prebuilt extension.
+libpng 1.6.5 => libpng/
+zlib 1.2.8 => zlib/
+linmath => linmath/
+
+SETUP
+
+1) libpng
+
+a) Download libpng from http://www.libpng.org/pub/png/libpng.html.
+b) Copy pnglibconf.h.prebuilt from libpng/scripts/ to libpng/ and remove the .prebuilt extension.
+
+2) zlib
+
+Download zlib from http://www.zlib.net/.
+
+3) linmath
+
+There's nothing special to do as this repository should already be linked to the linmath repository at https://github.com/datenwolf/linmath.h.git.
+

@@ -8,11 +8,13 @@ int init_gl();
 void do_frame();
 void shutdown_gl();
 
+static const int width = 480, height = 800;
+
 int main()
 {
 	if (init_gl() == GL_TRUE) {
 		on_surface_created();
-		on_surface_changed();
+		on_surface_changed(width, height);
 		emscripten_set_main_loop(do_frame, 0, 1);
 	}
 		
@@ -23,9 +25,6 @@ int main()
 
 int init_gl()
 {
-	const int width = 480,
-	         height = 800;
-
 	if (glfwInit() != GL_TRUE) {
 		printf("glfwInit() failed\n");
 		return GL_FALSE;
