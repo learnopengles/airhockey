@@ -86,22 +86,16 @@ static inline int gen_cylinder(float* out, int offset, float center_x, float cen
 	return offset;
 }
 
-Puck create_puck(float radius, float height, float num_points, vec4 color)
+Puck create_puck(float radius, float height, int num_points, vec4 color)
 {
-	int circle_vertex_count = size_of_circle_in_vertices(num_points);
-	int cylinder_vertex_count = size_of_open_cylinder_in_vertices(num_points);
-	float data[(circle_vertex_count + cylinder_vertex_count) * 3];
+	float data[(size_of_circle_in_vertices(num_points) + size_of_open_cylinder_in_vertices(num_points)) * 3];
 
 	int offset = gen_circle(data, 0, 0.0f, height / 2.0f, 0.0f, radius, num_points);
 	gen_cylinder(data, offset, 0.0f, 0.0f, 0.0f, height, radius, num_points);
 
-	int circle_vertex_start = 0;
-	int cylinder_vertex_start = circle_vertex_count;
-
 	return (Puck) {{color[0], color[1], color[2], color[3]},
 				   create_vbo(sizeof(data), data, GL_STATIC_DRAW),
-				   circle_vertex_start, circle_vertex_count,
-				   cylinder_vertex_start, cylinder_vertex_count};
+				   num_points};
 }
 
 void draw_puck(const Puck* puck, const ColorProgram* color_program, mat4x4 m)
@@ -114,17 +108,18 @@ void draw_puck(const Puck* puck, const ColorProgram* color_program, mat4x4 m)
 	glBindBuffer(GL_ARRAY_BUFFER, puck->buffer);
 	glVertexAttribPointer(color_program->a_position_location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(color_program->a_position_location);
-	glDrawArrays(GL_TRIANGLE_FAN, puck->circle_vertex_start, puck->circle_vertex_count);
-	glDrawArrays(GL_TRIANGLE_STRIP, puck->cylinder_vertex_start, puck->cylinder_vertex_count);
 
+	int circle_vertex_count = size_of_circle_in_vertices(puck->num_points);
+	int cylinder_vertex_count = size_of_open_cylinder_in_vertices(puck->num_points);
+
+	glDrawArrays(GL_TRIANGLE_FAN, 0, circle_vertex_count);
+	glDrawArrays(GL_TRIANGLE_STRIP, circle_vertex_count, cylinder_vertex_count);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-Mallet create_mallet(float radius, float height, float num_points, vec4 color)
+Mallet create_mallet(float radius, float height, int num_points, vec4 color)
 {
-	int circle_vertex_count = size_of_circle_in_vertices(num_points);
-	int cylinder_vertex_count = size_of_open_cylinder_in_vertices(num_points);
-	float data[(circle_vertex_count * 2 + cylinder_vertex_count * 2) * 3];
+	float data[(size_of_circle_in_vertices(num_points) * 2 + size_of_open_cylinder_in_vertices(num_points) * 2) * 3];
 
 	float base_height = height * 0.25f;
 	float handle_height = height * 0.75f;
@@ -135,15 +130,9 @@ Mallet create_mallet(float radius, float height, float num_points, vec4 color)
 	offset = gen_cylinder(data, offset, 0.0f, -base_height - base_height / 2.0f, 0.0f, base_height, radius, num_points);
 	gen_cylinder(data, offset, 0.0f, height * 0.5f - handle_height / 2.0f, 0.0f, handle_height, handle_radius, num_points);
 
-	int circle_vertex_start0 = 0;
-	int circle_vertex_start1 = circle_vertex_count;
-
-	int cylinder_vertex_start0 = circle_vertex_start1 + circle_vertex_count;
-	int cylinder_vertex_start1 = cylinder_vertex_start0 + cylinder_vertex_count;
-
-	return (Mallet) {{color[0], color[1], color[2], color[3]}, create_vbo(sizeof(data), data, GL_STATIC_DRAW),
-				     {circle_vertex_start0, circle_vertex_start1}, circle_vertex_count,
-				     {cylinder_vertex_start0, cylinder_vertex_start1}, cylinder_vertex_count};
+	return (Mallet) {{color[0], color[1], color[2], color[3]},
+					 create_vbo(sizeof(data), data, GL_STATIC_DRAW),
+				     num_points};
 }
 
 void draw_mallet(const Mallet* mallet, const ColorProgram* color_program, mat4x4 m)
@@ -156,10 +145,14 @@ void draw_mallet(const Mallet* mallet, const ColorProgram* color_program, mat4x4
 	glBindBuffer(GL_ARRAY_BUFFER, mallet->buffer);
 	glVertexAttribPointer(color_program->a_position_location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(color_program->a_position_location);
-	glDrawArrays(GL_TRIANGLE_FAN, mallet->circle_vertex_start[0], mallet->circle_vertex_count);
-	glDrawArrays(GL_TRIANGLE_FAN, mallet->circle_vertex_start[1], mallet->circle_vertex_count);
-	glDrawArrays(GL_TRIANGLE_STRIP, mallet->cylinder_vertex_start[0], mallet->cylinder_vertex_count);
-	glDrawArrays(GL_TRIANGLE_STRIP, mallet->cylinder_vertex_start[1], mallet->cylinder_vertex_count);
 
+	int circle_vertex_count = size_of_circle_in_vertices(mallet->num_points);
+	int cylinder_vertex_count = size_of_open_cylinder_in_vertices(mallet->num_points);
+	int start_vertex = 0;
+
+	glDrawArrays(GL_TRIANGLE_FAN, start_vertex, circle_vertex_count); start_vertex += circle_vertex_count;
+	glDrawArrays(GL_TRIANGLE_FAN, start_vertex, circle_vertex_count); start_vertex += circle_vertex_count;
+	glDrawArrays(GL_TRIANGLE_STRIP, start_vertex, cylinder_vertex_count); start_vertex += cylinder_vertex_count;
+	glDrawArrays(GL_TRIANGLE_STRIP, start_vertex, cylinder_vertex_count);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
