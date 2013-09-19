@@ -5,7 +5,6 @@
 #include "image.h"
 #include "linmath.h"
 #include "math_helper.h"
-#include "matrix.h"
 #include "platform_gl.h"
 #include "platform_asset_utils.h"
 #include "program.h"
@@ -13,7 +12,7 @@
 #include "texture.h"
 
 static const float puck_height = 0.02f;
-static const float mallet_height =  0.15f;
+static const float mallet_height = 0.15f;
 
 static Table table;
 static Puck puck;
@@ -54,7 +53,7 @@ void on_surface_created() {
 void on_surface_changed(int width, int height) {
 	glViewport(0, 0, width, height);
 	mat4x4_perspective(projection_matrix, 45, (float) width / (float) height, 1.0f, 10.0f);
-	mat4x4_look_at(view_matrix, 0.0f, 1.2f, 2.2f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	mat4x4_look_at(view_matrix, (vec3){0.0f, 1.2f, 2.2f}, (vec3){0.0f, 0.0f, 0.0f}, (vec3){0.0f, 1.0f, 0.0f});
 }
 
 void on_draw_frame() {
