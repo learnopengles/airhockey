@@ -21,3 +21,15 @@ JNIEXPORT void JNICALL Java_com_learnopengles_airhockey_RendererWrapper_on_1draw
 	UNUSED(cls);
 	on_draw_frame();
 }
+
+JNIEXPORT void JNICALL Java_com_learnopengles_airhockey_RendererWrapper_on_1touch_1press(JNIEnv* env, jclass cls, jfloat normalized_x, jfloat normalized_y) {
+	UNUSED(env);
+	UNUSED(cls);
+	on_touch_press(normalized_x, normalized_y);
+}
+
+JNIEXPORT void JNICALL Java_com_learnopengles_airhockey_RendererWrapper_on_1touch_1drag(JNIEnv* env, jclass cls, jfloat normalized_x, jfloat normalized_y) {
+	UNUSED(env);
+	UNUSED(cls);
+	on_touch_drag(normalized_x, normalized_y);
+}
