@@ -169,8 +169,7 @@ void on_surface_created() {
 
 void on_surface_changed(int width, int height) {
 	glViewport(0, 0, width, height);
-	// 45 degrees, in radians
-	mat4x4_perspective(projection_matrix, 0.785398163, (float) width / (float) height, 1.0f, 10.0f);
+	mat4x4_perspective(projection_matrix, deg_to_radf(45), (float) width / (float) height, 1.0f, 10.0f);
 	mat4x4_look_at(view_matrix, (vec3){0.0f, 1.2f, 2.2f}, (vec3){0.0f, 0.0f, 0.0f}, (vec3){0.0f, 1.0f, 0.0f});
 }
 

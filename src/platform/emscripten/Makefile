@@ -70,7 +70,6 @@ depend:
 
 # Dependences (call 'make depend' to generate); do not delete:
 # Build for these is implicit, no need to specify compiler command lines.
-
 main.o: main.c ../../core/game.h
 platform_asset_utils.o: platform_asset_utils.c \
   ../common/platform_asset_utils.h ../common/platform_file_utils.h
@@ -88,8 +87,8 @@ platform_asset_utils.o: platform_asset_utils.c \
   ../../core/buffer.h
 ../../core/game.o: ../../core/game.c ../../core/game.h ../../core/game_objects.h \
   platform_gl.h ../../core/program.h ../../3rdparty/linmath/linmath.h \
-  ../../core/asset_utils.h ../../core/buffer.h ../../core/image.h \
-  ../../core/math_helper.h ../../core/matrix.h \
+  ../../core/asset_utils.h ../../core/buffer.h ../../core/geometry.h \
+  ../../core/image.h ../../core/math_helper.h \
   ../common/platform_asset_utils.h ../common/platform_file_utils.h \
   ../../core/shader.h ../../core/texture.h
 ../../core/image.o: ../../core/image.c ../../core/image.h platform_gl.h \
