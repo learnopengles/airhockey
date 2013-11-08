@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>1B70A057-3DFC-4288-98CA-FA3DFEA5FEC8</string>
+	<key>IDESourceControlProjectName</key>
+	<string>airhockey</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>6E3CB06A-5BC3-4173-B620-93F8095AA188</key>
+		<string>https://github.com/learnopengles/airhockey.git</string>
+		<key>E9993C4D-FC14-4678-A371-5B5FCFFB334E</key>
+		<string>https://github.com/datenwolf/linmath.h.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>src/platform/ios/airhockey.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>6E3CB06A-5BC3-4173-B620-93F8095AA188</key>
+		<string>../../../../..</string>
+		<key>E9993C4D-FC14-4678-A371-5B5FCFFB334E</key>
+		<string>../../../../3rdparty/linmath</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/learnopengles/airhockey.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>6E3CB06A-5BC3-4173-B620-93F8095AA188</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6E3CB06A-5BC3-4173-B620-93F8095AA188</string>
+			<key>IDESourceControlWCCName</key>
+			<string>airhockey</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E9993C4D-FC14-4678-A371-5B5FCFFB334E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>linmath</string>
+		</dict>
+	</array>
+</dict>
+</plist>
